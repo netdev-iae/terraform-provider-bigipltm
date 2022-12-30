@@ -1,0 +1,11 @@
+curl -X POST localhost:19090/signup -d '{"username":"education", "password":"test123"}'
+
+
+{"UserID":1,"Username":"education","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzE4MDMxMzEsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZWR1Y2F0aW9uIn0.5wTsC94pfNcT154XfdaMzSmhF9azG8XIbPPuAMqleS0"}
+
+
+
+curl -X POST localhost:19090/signin -d '{"username":"education", "password":"test123"}'
+{"UserID":1,"Username":"education","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzE4MDMyNzgsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZWR1Y2F0aW9uIn0.ppD9pUysXO2zgtu-TjKvTrXotpyH-zpv-Al4Guupv4U"}
+idris
+
