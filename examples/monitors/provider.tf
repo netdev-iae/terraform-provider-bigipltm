@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     bigipcustum = {
-      version = "0.0.1"
+      version = "0.0.2"
       source = "terraform.lab.local/net/bigipcustum"
     }
   }
@@ -15,7 +15,7 @@ provider "bigipcustum" {
 } 
 
 
-resource "bigipcustum_monitor_custum" "monitor" {
+resource "bigipcustum_monitor_custum" "monitor_http" {
   name       = "/Common/terraform_monitor"
   parent     = "/Common/http"
   send       = "GET /some/path\r\n"
@@ -24,12 +24,10 @@ resource "bigipcustum_monitor_custum" "monitor" {
 }
 
 
-resource "bigipcustum_monitor_custum" "monitor" {
-  name       = "/Common/terraform_monitor"
-  parent     = "/Common/"
-  send       = "GET /some/path\r\n"
+resource "bigipcustum_monitor_custum" "monitor_smtp" {
+  name       = "/Common/smtp_monitor"
+  parent     = "/Common/smtp"
+  destination  = "*:563"
   timeout    = "15"
   interval   = "46"
 }
-
-
