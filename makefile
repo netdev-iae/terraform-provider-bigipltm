@@ -1,12 +1,13 @@
 TEST?=$$(go list ./... | grep -v 'vendor')
 HOSTNAME=terraform.lab.local
 NAMESPACE=net
-NAME=bigipcustum
+NAME=bigipltm
 BINARY=terraform-provider-${NAME}
-VERSION=0.0.2
+VERSION=0.0.3
 OS_ARCH=linux_amd64
 
 default: install
+
 
 build:
 	go build  -o ${BINARY}
@@ -24,3 +25,4 @@ test:
 
 testacc: 
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m   
+

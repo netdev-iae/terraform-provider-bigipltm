@@ -1,48 +1,58 @@
-# Terraform Provider Hashicups
+# Overview
 
-This repo is a companion repo to the [Call APIs with Terraform Providers](https://learn.hashicorp.com/collections/terraform/providers) Learn collection. 
+A [Terraform](terraform.io) provider for F5 BigIP LTM Monitor ( for this version Only SMTP monitor is added to). This repo is a fork of the offical [repo](https://github.com/F5Networks/terraform-provider-bigip)
+with the addition of a resource provider to configure BigIP resources
 
-In the collection, you will use the HashiCups provider as a bridge between Terraform and the HashiCups API. Then, extend Terraform by recreating the HashiCups provider. By the end of this collection, you will be able to take these intuitions to create your own custom Terraform provider. 
+# Requirements
 
-Visit the [`boilerplate`](https://github.com/hashicorp/terraform-provider-hashicups/tree/boilerplate) branch of this repository for this Terraform provider's specific starter template. The [Terraform Provider Scaffold](https://github.com/hashicorp/terraform-provider-scaffolding) is a quick-start repository for creating a Terraform provider. Use this GitHub template when you're ready to create your own custom provider.
+- [Terraform](https://www.terraform.io/downloads.html) 0.11.x / 0.12.x /0.13.x
+- [Go](https://golang.org/doc/install) 1.19 (to build the provider plugin)
+
+# F5 BigIP LTM requirements
+
+- This provider uses the iControlREST API, make sure that it is installed and enabled on your F5 device before proceeding.
+
+These BIG-IP versions are supported in these Terraform versions.
+
+| BIG-IP version | Terraform 1.x | Terraform 0.13 | Terraform 0.12 | Terraform 0.11 |
+| -------------- | ------------- | -------------- | -------------- | -------------- |
+| BIG-IP 16.x    | X             | X              | X              | X              |
+| BIG-IP 15.x    | X             | X              | X              | X              |
+| BIG-IP 14.x    | X             | X              | X              | X              |
+| BIG-IP 12.x    | X             | X              | X              | X              |
+| BIG-IP 13.x    | X             | X              | X              | X              |
+
+# Documentation
+
+Below is an example of how you can use the provider to create GTM/DNS resources
+
+```
+resource "bigipltm_monitor" "monitor_http" {
+  name     = "/Common/terraform_monitor"
+  parent   = "/Common/http"
+  send     = "GET /some/path\r\n"
+  timeout  = "15"
+  interval = "46"
+}
 
 
-
-## Build provider
-
-Run the following command to build the provider
-
-```shell
-$ go build -o terraform-provider-hashicups
+resource "bigipltm_monitor" "monitor_smtp" {
+  name        = "/Common/smtp_monitor"
+  parent      = "/Common/smtp"
+  destination = "*:563"
+  timeout     = "15"
+  interval    = "46"
+}
+resource "bigipltm_monitor" "monitor_https" {
+  name        = "/Common/terraform_monitor_https"
+  parent      = "/Common/https"
+  send        = "GET /some/path\r\n"
+  timeout     = "15"
+  interval    = "46"
+  ssl_profile = "serverssl"
+}
 ```
 
-## Local release build
+# Using the Provider
 
-```shell
-$ go install github.com/goreleaser/goreleaser@latest
-```
-
-```shell
-$ make release
-```
-
-You will find the releases in the `/dist` directory. You will need to rename the provider binary to `terraform-provider-hashicups` and move the binary into [the appropriate subdirectory within the user plugins directory](https://learn.hashicorp.com/tutorials/terraform/provider-use?in=terraform/providers#install-hashicups-provider).
-## Test sample configuration
-
-First, build and install the provider.
-
-```shell
-$ make install
-```
-
-Then, navigate to the `examples` directory. 
-
-```shell
-$ cd examples
-```
-
-Run the following command to initialize the workspace and apply the sample configuration.
-
-```shell
-$ terraform init && terraform apply
-```
+You can download the binary from the releases [section](https://github.com/anesh/terraform-provider-bigip/releases) of this repo and follow the instructions of installing terraform plugins.

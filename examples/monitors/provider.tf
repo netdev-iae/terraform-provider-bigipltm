@@ -1,33 +1,26 @@
 terraform {
   required_providers {
-    bigipcustum = {
-      version = "0.0.2"
-      source = "terraform.lab.local/net/bigipcustum"
+    bigipltm = {
+      version = "0.0.3"
+      source  = "terraform.lab.local/net/bigipltm"
     }
   }
 }
 
-
-provider "bigipcustum" {
+variable "password" {
+  type = string
+}
+provider "bigipltm" {
   address  = "172.16.0.129"
   username = "admin"
-  password = "123***sss"
-} 
-
-
-resource "bigipcustum_monitor_custum" "monitor_http" {
-  name       = "/Common/terraform_monitor"
-  parent     = "/Common/http"
-  send       = "GET /some/path\r\n"
-  timeout    = "15"
-  interval   = "46"
+  password = var.password
 }
 
 
-resource "bigipcustum_monitor_custum" "monitor_smtp" {
-  name       = "/Common/smtp_monitor"
-  parent     = "/Common/smtp"
-  destination  = "*:563"
-  timeout    = "15"
-  interval   = "46"
+resource "bigipltm_monitor" "monitor_smtp" {
+  name        = "/Common/smtp_monitor"
+  parent      = "/Common/smtp"
+  destination = "*:563"
+  timeout     = "15"
+  interval    = "46"
 }
