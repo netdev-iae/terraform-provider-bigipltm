@@ -55,4 +55,4 @@ resource "bigipltm_monitor" "monitor_https" {
 
 # Using the Provider
 
-You can download the binary from the releases [section](https://github.com/anesh/terraform-provider-bigip/releases) of this repo and follow the instructions of installing terraform plugins.
+to be completed
